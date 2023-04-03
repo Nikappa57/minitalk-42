@@ -3,21 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   minitalk.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgaudino <lgaudino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lorenzogaudino <lorenzogaudino@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/22 14:42:18 by lgaudino          #+#    #+#             */
-/*   Updated: 2023/03/22 15:13:07 by lgaudino         ###   ########.fr       */
+/*   Created: 2023/03/23 12:12:50 by lorenzogaud       #+#    #+#             */
+/*   Updated: 2023/04/01 18:58:03 by lorenzogaud      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINITALK_H
 # define MINITALK_H
 
-# include <unistd.h>
-# include <stdlib.h>
+# include "libft.h"
 
-void	ft_putchar_fd(char c, int fd);
-void	ft_putstr_fd(char *s, int fd);
-void	ft_putnbr_fd(int n, int fd);
+# include <signal.h>
 
 #endif
