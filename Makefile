@@ -1,46 +1,58 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: lgaudino <lgaudino@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/03/22 14:48:21 by lgaudino          #+#    #+#              #
-#    Updated: 2023/03/22 15:09:56 by lgaudino         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+CLIENT 				=	client
+SERVER				=	server
 
-CLIENT = client
-SERVER = server
+INCLUDES			=	-I includes -I $(LIBFT_DIR)/includes/
 
-SRCS = ft_client.c ft_server.c ft_utils.c
+LIBFT				=	$(LIBFT_DIR)libft.a
+LIBFT_DIR			=	libft
+LIB_FLAGS			=	-L $(LIBFT_DIR) -lft
 
-OBJ = $(SRCS:%.c=%.o)
+CC					=	gcc
+CFLAGS				=	-Wall -Wextra -Werror
+RM					=	/bin/rm -f
+NORM				=	norminette
 
-SERVEROBJ = ft_server.o ft_utils.o
-CLIENTOBJ = ft_client.o ft_utils.o
+DIR_SRCS			=	srcs
+DIR_OBJS			=	objs
+CLIENT_SUBDIRS		=	client
+SERVER_SUBDIRS		=	server
 
-CC = gcc
+CLIENT_SRCS_PATHS	=	$(foreach dir, $(CLIENT_SUBDIRS), $(addprefix $(DIR_SRCS)/, $(dir)))
+CLIENT_OBJS_PATHS	=	$(foreach dir, $(CLIENT_SUBDIRS), $(addprefix $(DIR_OBJS)/, $(dir)))
+CLIENT_SRCS			=	$(foreach dir, $(CLIENT_SRCS_PATHS), $(wildcard $(dir)/*.c))
+CLIENT_OBJS			=	$(subst $(DIR_SRCS), $(DIR_OBJS), $(CLIENT_SRCS:.c=.o))
 
-RM = rm -rf
+SERVER_SRCS_PATHS	=	$(foreach dir, $(SERVER_SUBDIRS), $(addprefix $(DIR_SRCS)/, $(dir)))
+SERVER_OBJS_PATHS	=	$(foreach dir, $(SERVER_SUBDIRS), $(addprefix $(DIR_OBJS)/, $(dir)))
+SERVER_SRCS			=	$(foreach dir, $(SERVER_SRCS_PATHS), $(wildcard $(dir)/*.c))
+SERVER_OBJS			=	$(subst $(DIR_SRCS), $(DIR_OBJS), $(SERVER_SRCS:.c=.o))
 
-all: $(CLIENT) $(SERVER)
+$(DIR_OBJS)/%.o :	$(DIR_SRCS)/%.c
+					mkdir -p $(DIR_OBJS) $(CLIENT_OBJS_PATHS) $(SERVER_OBJS_PATHS)
+					$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-$(CLIENT): $(OBJ)
-			$(CC) $(CFLAGS) $(CLIENTOBJ) -o $(CLIENT)
+all:				$(CLIENT) $(SERVER)
 
-$(SERVER): $(OBJ)
-			$(CC) $(CFLAGS) $(SERVEROBJ) -o $(SERVER)
+$(LIBFT):
+					make -C $(LIBFT_DIR)
 
-$(OBJ): $(SRCS)
-	$(CC) $(CFLAGS) -c $(SRCS)
+$(CLIENT):			$(CLIENT_OBJS) $(LIBFT)
+					$(CC) $(CFLAGS) -o $(CLIENT) $(CLIENT_OBJS) $(LIB_FLAGS)
+$(SERVER):			$(SERVER_OBJS) $(LIBFT)
+					$(CC) $(CFLAGS) -o $(SERVER) $(SERVER_OBJS) $(LIB_FLAGS)
 
 clean:
-			$(RM) $(OBJ)
+					make clean -C $(LIBFT_DIR)
+					$(RM) $(CLIENT_OBJS) $(CLIENT_OBJS)
+					$(RM) -r $(DIR_OBJS)
 
-fclean:		clean
-			$(RM) $(CLIENT) $(SERVER)
+fclean:				clean
+					make fclean -C $(LIBFT_DIR)
+					$(RM) $(SERVER) $(CLIENT)
 
-re:			fclean all
+re:					fclean all
 
-.PHONY: all clean fclean re
+norm:
+					$(NORM) */*.h */*/*.c
+
+.PHONY:				all clean fclean re norm
