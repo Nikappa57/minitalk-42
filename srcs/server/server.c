@@ -6,7 +6,7 @@
 /*   By: lorenzogaudino <lorenzogaudino@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 22:39:44 by lorenzogaud       #+#    #+#             */
-/*   Updated: 2023/04/04 01:05:00 by lorenzogaud      ###   ########.fr       */
+/*   Updated: 2023/04/06 00:54:41 by lorenzogaud      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ static void	sig_error(void)
 	exit(EXIT_FAILURE);
 }
 
-static void	sig_handler(int sig, siginfo_t *info,
-	void *context __attribute__ ((unused)))
+static void	sig_handler(int sig, siginfo_t *info, void *context)
 {
 	static int	i = 0;
 	static int	c = 0;
 	static int	client_pid = 0;
 
+	(void)context;
 	if (client_pid != info->si_pid && (int)(info->si_pid) != 0)
 		client_pid = info->si_pid;
 	c |= (sig == SIGUSR2);
