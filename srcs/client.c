@@ -6,7 +6,7 @@
 /*   By: lorenzogaudino <lorenzogaudino@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 22:40:07 by lorenzogaud       #+#    #+#             */
-/*   Updated: 2023/04/04 01:04:57 by lorenzogaud      ###   ########.fr       */
+/*   Updated: 2023/05/22 23:26:44 by lorenzogaud      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,6 @@ static void	send_str(int pid, char *str)
 	}
 }
 
-static void	sig_handler(int sig)
-{
-	if (sig == SIGUSR2)
-	{
-		ft_printf("Message receved.\n");
-		exit(EXIT_SUCCESS);
-	}
-}
-
 int	main(int argc, char **argv)
 {
 	if (argc != 3 || !ft_isstrdigit(argv[1]))
@@ -60,8 +51,5 @@ int	main(int argc, char **argv)
 		ft_putstr_fd("Args error, use:\n./client <PID> <STR>\n", 2);
 		exit(EXIT_FAILURE);
 	}
-	signal(SIGUSR2, sig_handler);
 	send_str(ft_atoi(argv[1]), argv[2]);
-	while (1)
-		pause();
 }
