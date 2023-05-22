@@ -6,7 +6,7 @@
 /*   By: lorenzogaudino <lorenzogaudino@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 22:39:44 by lorenzogaud       #+#    #+#             */
-/*   Updated: 2023/05/22 23:27:06 by lorenzogaud      ###   ########.fr       */
+/*   Updated: 2023/05/23 00:22:18 by lorenzogaud      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ static void	sig_handler(int sig, siginfo_t *info, void *context)
 	(void)context;
 	if (client_pid != info->si_pid && (int)(info->si_pid) != 0)
 		client_pid = info->si_pid;
-	c |= (sig == SIGUSR2);
+	if (sig == SIGUSR1)
+		c |= (0x01 << i);
 	if (++i == 8)
 	{
 		if (c == '\0')
@@ -41,8 +42,6 @@ static void	sig_handler(int sig, siginfo_t *info, void *context)
 		c = 0;
 		i = 0;
 	}
-	c <<= 1;
-	usleep(100);
 }
 
 int	main(void)

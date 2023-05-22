@@ -6,7 +6,7 @@
 /*   By: lorenzogaudino <lorenzogaudino@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 22:39:44 by lorenzogaud       #+#    #+#             */
-/*   Updated: 2023/05/22 23:26:50 by lorenzogaud      ###   ########.fr       */
+/*   Updated: 2023/05/23 00:38:40 by lorenzogaud      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ static void	sig_handler(int sig)
 	static int	i = 0;
 	static int	c = 0;
 
-	c |= (sig == SIGUSR2);
+	if (sig == SIGUSR1)
+		c |= (0x01 << i);
 	if (++i == 8)
 	{
 		if (c == '\0')
@@ -27,8 +28,6 @@ static void	sig_handler(int sig)
 		c = 0;
 		i = 0;
 	}
-	c <<= 1;
-	usleep(100);
 }
 
 int	main(void)

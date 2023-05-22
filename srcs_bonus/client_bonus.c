@@ -6,7 +6,7 @@
 /*   By: lorenzogaudino <lorenzogaudino@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 22:40:07 by lorenzogaud       #+#    #+#             */
-/*   Updated: 2023/05/22 23:37:45 by lorenzogaud      ###   ########.fr       */
+/*   Updated: 2023/05/23 00:36:10 by lorenzogaud      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,21 +24,21 @@ static void	send_str(int pid, char *str)
 	size_t	i;
 	size_t	len;
 
-	len = ft_strlen(str);
 	i = 0;
+	len = ft_strlen(str);
 	while (i <= len)
 	{
-		shift = 7;
-		while (shift >= 0)
+		shift = 0;
+		while (shift < 8)
 		{
-			if (str[i] & (1 << shift--))
+			if (str[i] & (0x01 << shift++))
 			{
-				if (kill(pid, SIGUSR2) == -1)
+				if (kill(pid, SIGUSR1) == -1)
 					sig_error();
 			}
-			else if (kill(pid, SIGUSR1) == -1)
+			else if (kill(pid, SIGUSR2) == -1)
 				sig_error();
-			usleep(100);
+			usleep(700);
 		}
 		i++;
 	}
