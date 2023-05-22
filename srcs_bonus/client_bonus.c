@@ -6,7 +6,7 @@
 /*   By: lorenzogaudino <lorenzogaudino@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 22:40:07 by lorenzogaud       #+#    #+#             */
-/*   Updated: 2023/05/23 00:36:10 by lorenzogaud      ###   ########.fr       */
+/*   Updated: 2023/05/23 00:42:55 by lorenzogaud      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void	send_str(int pid, char *str)
 			}
 			else if (kill(pid, SIGUSR2) == -1)
 				sig_error();
-			usleep(700);
+			usleep(800);
 		}
 		i++;
 	}
