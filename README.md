@@ -27,6 +27,7 @@ Clone the repository:
 
 ```
 git clone https://github.com/Nikappa57/minitalk-42.git
+cd minitalk-42
 ```
 
 Compilation:
